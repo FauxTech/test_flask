@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="content-section">
+        <!-- passing empty string on action means that when we will post this
+             this form, it'll go back to the same route/it'll post information
+             to the same route we're currently on -->
+        <form method="POST" action="">
+            <!-- here we use the hidden tag method, it adds csrf (cross-site
+                 request forgery) token -->
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <!-- legend for register form -->
+                <legend class="border-bottom mb-3">Join Today</legend>
+                <div class="form-group">
+                    <!-- this will print out label from user filed
+                         we can give it a class by passing class argument -->
+                    {{ form.username.label(class="form-control-label") }}
+
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid mb-1") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg mb-1") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid mb-1") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg mb-1") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control form-control-lg is-invalid mb-1") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg mb-1") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_password.label(class="form-control-label") }}
+
+                    {% if form.confirm_password.errors %}
+                        {{ form.password(class="form-control  form-control-lg is-invalid mb-1") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirm_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.confirm_password(class="form-control form-control-lg mb-1") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info mt-3 mb-1") }}
+            </div>
+        </form>
+    </div>
+    <div class="border-top pt-3">
+        <!-- remember that if you want to link to somewhere, it's best to use
+             the url_for function to which we pass link to that page
+             remember that the value we are passing is not the name of the route,
+             it's the name of route function -->
+        <small class="text-muted">
+            Already Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
+        </small>
+    </div>
+{% endblock content %}
+

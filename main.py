@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm, LoginForm
 
 # the url_function that we are importing will find exact locations of routs
@@ -6,6 +6,9 @@ from forms import RegistrationForm, LoginForm
 
 # instantiating Flask object from flask lib
 app = Flask(__name__)
+
+# secret key for our application which will protect against modifying cookies
+# cross-site requests etc.
 app.config['SECRET_KEY'] = '3527bff60b049fc0b17f7f5d36473245'
 
 # dummy data
@@ -47,6 +50,32 @@ def about():
     # in this example we created attribute title to which we assigned
     # the string 'About'
     return render_template('about.html', title='About')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    # method that validates our data after submitting
+    if form.validate_on_submit():
+        # success in this flash is a category we provide, it will be used
+        # to get success class from bootstrap
+        # this flash message is a one time alert, goes away after reload
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('home'))
+    return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        if (form.email.data == 'admin@blog.com'
+                and form.password.data == 'password'):
+            flash(f'You have logged as {form.email.data}', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Wrong login or password!', 'danger')
+    return render_template('login.html', title='Login', form=form)
 
 
 if __name__ == "__main__":
