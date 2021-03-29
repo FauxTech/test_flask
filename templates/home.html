@@ -9,17 +9,13 @@
      pages and insert the unique data into the corresponding block section -->
 {% block content %}
 
-    <!-- creating a for loop in flasks templating engine (Jinja 2)
-         to do this we need to use a code block, we need to state the start
-          of it {% for element in iterable %} and its end {% endfor %} -->
+    <!-- creating a for loop in flasks templating engine (Jinja 2) -->
     {% for post in posts %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="media-metadata">
 
-                    <!-- we can input the data from our dictionary by using
-                         double brackets {{ }} and then the variable inside
-                         of it (in this case {{ post.author }}  -->
+
                     <a class="mr-2" href="#">{{ post.author }}</a>
                     <small class="text-muted">{{ post.date_posted}}</small>
                 </div>
